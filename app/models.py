@@ -45,3 +45,26 @@ class EventGroup(models.Model):
         if self.leave_data < datetime.datetime.now().date():
             return False
         return True
+
+    # def save(self, *args, **kwargs):
+    #     if not self.user_id:
+    #         self.user = User.objects.first()  # или какая-то другая логика
+    #     super().save(*args, **kwargs)
+
+
+class Profile(models.Model):
+    name = models.CharField(max_length=20)
+    birth_date = models.CharField(max_length=12)
+    group = models.ForeignKey(EventGroup, on_delete=models.CASCADE)
+    city = models.CharField(max_length=50)
+    region = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='mentor')
+    avatar = models.ImageField(default='profile/default-avatar.png', upload_to='profile')
+
+    def __str__(self):
+        return self.name
+
+    # def is_active(self):
+    #     if self.leave_data < datetime.datetime.now().date():
+    #         return False
+    #     return True
