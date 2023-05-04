@@ -1,30 +1,50 @@
-from rest_framework import viewsets
-from rest_framework.views import APIView
+from rest_framework import viewsets, mixins, generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Category, Event, EventGroup
-from .serializers import CategorySerializers, EventSerializers, EventGroupSerializers
+from .permissons import IsAuthorOrAllowAny
+from .models import Event, Profile
+from .serializers import EventSerializers, ProfileSerializers
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializers
+class EventListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializers
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class EventUpdateDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializers
     authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthorOrAllowAny, ]
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class EventCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializers
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated, ]
 
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = EventGroup.objects.all()
-    serializer_class = EventGroupSerializers
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializers
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthenticated, ]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

@@ -1,24 +1,17 @@
 from rest_framework import serializers
 
-from .models import Category, Event, EventGroup
-
-
-class CategorySerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
+from .models import Event, Profile
 
 
 class EventSerializers(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
-        read_only_fields = ['user', ]
+        read_only_fields = ['user']
 
 
-class EventGroupSerializers(serializers.ModelSerializer):
+class ProfileSerializers(serializers.ModelSerializer):
     class Meta:
-        model = EventGroup
-        fields = '__all__'
+        model = Profile
+        fields = "__all__"
         read_only_fields = ['user', ]
-

@@ -6,6 +6,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
+from rest_framework.authtoken import views
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -30,5 +32,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('project.urlsv1')),
     path('auth/', include('rest_framework.urls')),
-
 ] + doc_urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
