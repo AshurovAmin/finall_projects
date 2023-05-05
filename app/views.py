@@ -40,12 +40,47 @@ class EventCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
         serializer.save(user=self.request.user)
 
 
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+class EventRetrieveAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializers
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthorOrAllowAny, ]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class ProfileCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Event.objects.all()
     serializer_class = ProfileSerializers
     authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthorOrAllowAny, ]
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
+class ProfileUpdateDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializers
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthorOrAllowAny, ]
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class ProfileRetrieveAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializers
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthorOrAllowAny, ]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
