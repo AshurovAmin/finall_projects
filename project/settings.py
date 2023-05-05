@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-10pzslyvh+v4!&44nwt42*cvs%2nmdfa%klpv7#j)u04utlch9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["16.170.37.57"]
+ALLOWED_HOSTS = ['16.170.37.57']
 
 
 # Application definition
@@ -135,3 +135,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.User'
 
+CORS_ALLOW_ALL_ORIGINS = True

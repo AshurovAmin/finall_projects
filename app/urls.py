@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/', views.ProfileViewSet.as_view(
         {'get': 'retrieve', 'put': 'update', 'delete': 'destroy', 'patch': 'partial_update'}
     )),
+
 ]
