@@ -21,3 +21,4 @@ class UserRegisterAPIView(generics.CreateAPIView):
 class UserList(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+

@@ -51,23 +51,27 @@ class EventRetrieveAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
 
 
 class ProfileCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Event.objects.all()
-    serializer_class = ProfileSerializers
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthorOrAllowAny, ]
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class ProfileUpdateDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializers
     authentication_classes = [SessionAuthentication, ]
     permission_classes = [IsAuthorOrAllowAny, ]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ProfileUpdateRetrieveDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializers
+    authentication_classes = [SessionAuthentication, ]
+    permission_classes = [IsAuthorOrAllowAny, ]
+    lookup_field = 'user__username'
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -75,12 +79,3 @@ class ProfileUpdateDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMi
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-
-class ProfileRetrieveAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializers
-    authentication_classes = [SessionAuthentication, ]
-    permission_classes = [IsAuthorOrAllowAny, ]
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)

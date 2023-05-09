@@ -9,7 +9,6 @@ urlpatterns = [
     path('event/<int:pk>/', views.EventUpdateDestroyAPIView.as_view()),
     path('event/<int:pk>/detail/', views.EventRetrieveAPIView.as_view()),
     path('profile/create/', views.ProfileCreateAPIView.as_view()),
-    path('profile/<int:pk>/', views.ProfileUpdateDestroyAPIView.as_view()),
-    path('profile/<int:pk>/detail/', views.ProfileRetrieveAPIView.as_view()),
+    path('profile/<str:user__username>/', views.ProfileUpdateRetrieveDestroyAPIView.as_view()),
 
 ]
