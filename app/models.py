@@ -25,7 +25,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=50, blank=True, null=True)
     number_phone = models.CharField(max_length=50, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    avatar = models.ImageField(default='profile/default-avatar.png', upload_to='profile', blank=True, null=True)
+    avatar = models.ImageField()
 
     def __str__(self):
         return self.username
