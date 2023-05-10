@@ -43,7 +43,7 @@ class EventCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
 class EventRetrieveAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializers
-    authentication_classes = [SessionAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsAuthorOrAllowAny, ]
 
     def get(self, request, *args, **kwargs):
