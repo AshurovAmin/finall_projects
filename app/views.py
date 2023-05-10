@@ -1,5 +1,5 @@
 from rest_framework import viewsets, mixins, generics
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .permissons import IsAuthorOrAllowAny
 from .models import Event, Profile
@@ -30,7 +30,7 @@ class EventUpdateDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixi
 class EventCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializers
-    authentication_classes = [SessionAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsAuthenticated, ]
 
     def post(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class EventRetrieveAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
 class ProfileCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializers
-    authentication_classes = [SessionAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsAuthorOrAllowAny, ]
 
     def perform_create(self, serializer):
