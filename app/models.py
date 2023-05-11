@@ -8,7 +8,7 @@ class Event(models.Model):
     name = models.CharField('Название', max_length=96)
     full_text = models.TextField('Текст')
     date = models.DateTimeField('Дата')
-    img = models.ImageField()
+    img = models.ImageField(upload_to='media')
     user = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -25,7 +25,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=50, blank=True, null=True)
     number_phone = models.CharField(max_length=50, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    avatar = models.ImageField()
+    img = models.ImageField()
 
     def __str__(self):
         return self.username

@@ -17,7 +17,7 @@ class EventListAPIView(mixins.ListModelMixin, generics.GenericAPIView):
 class EventUpdateDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializers
-    authentication_classes = [SessionAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsAuthorOrAllowAny, ]
 
     def put(self, request, *args, **kwargs):
@@ -66,7 +66,7 @@ class ProfileCreateAPIView(mixins.CreateModelMixin, generics.GenericAPIView):
 class ProfileUpdateRetrieveDestroyAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializers
-    authentication_classes = [SessionAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsAuthorOrAllowAny, ]
     lookup_field = 'user__username'
 
